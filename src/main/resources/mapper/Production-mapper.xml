@@ -1,0 +1,59 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.ProductionMapper">
+    <delete id="deleteProduction">
+        delete from production where id=#{pro_id};
+    </delete>
+    <delete id="deletePro">
+        delete from production where id=#{proId}
+    </delete>
+    <select id="findProductionById" resultType="com.example.demo.eneity.Production">
+        select * from production where id=#{pro_id}
+    </select>
+    <select id="findAllProductionIds" resultType="java.lang.Integer">
+        select id from production
+    </select>
+    <resultMap type="com.example.demo.eneity.Production" id="productionList">
+        <result property="id" column="id" />
+        <result property="userId" column="userId"/>
+        <result property="name" column="name" />
+        <result property="detail" column="detail"/>
+        <result property="picture" column="picture"/>
+        <result property="location" column="location" />
+        <result property="shopName" column="shopName"/>
+        <result property="price" column="price" />
+        <result property="uploadTime" column="uploadTime"/>
+        <result property="status" column="status"/>
+    </resultMap>
+    <sql id="insertFields">
+         userId,name,detail,picture,location,shopName,price,uploadTime,status
+    </sql>
+    <insert id="uploadFood">
+        insert into production (<include refid="insertFields"></include>)
+        values(#{userId},#{name},#{detail},#{picture},#{location},#{shopName},#{price},#{uploadTime},#{status})
+    </insert>
+    <select id="findAll" resultMap="productionList">
+        select  * from production order by uploadTime desc;
+    </select>
+    <update id="updateStatus">
+        update production set status = 1 where id=#{proId}
+    </update>
+    <select id="findByLabel" resultType="java.lang.Integer">
+ SELECT
+  id
+FROM
+  production
+WHERE status= 1 and name LIKE CONCAT('%',#{str},'%')
+</select>
+    <select id="findByCanteen" resultType="java.lang.Integer">
+        SELECT
+        id
+        FROM
+        production
+        WHERE status= 1 and location LIKE CONCAT('%',#{cantten},'%')
+    </select>
+    <select id="findMyProductions" resultType="com.example.demo.eneity.Production">
+        select * from production where userId=#{userId}
+    </select>
+</mapper>

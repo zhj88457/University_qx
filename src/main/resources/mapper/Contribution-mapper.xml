@@ -1,0 +1,26 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.ContributionMapper">
+
+    <sql id="insertFields">
+         picture1,picture2,picture3,userId,submitTime,content,status
+    </sql>
+    <insert id="addContribution">
+        insert into contribution (<include refid="insertFields"></include>)
+        values (#{picture1},#{picture2},#{picture3},#{userId},#{submitTime},#{content},#{status})
+    </insert>
+    <delete id="deleteContribution">
+        delete from contribution where id=#{cid}
+    </delete>
+    <select id="findAll" resultType="com.example.demo.eneity.Contribution">
+        select  * from contribution where status= 0 order by submitTime desc;
+    </select>
+    <select id="myContribution" resultType="com.example.demo.eneity.Contribution">
+        select  * from contribution where userId = #{userId} order by submitTime desc;
+    </select>
+    <!--<update id="updateStatus">-->
+        <!--update message set status = #{status} where to_id=#{userId}-->
+    <!--</update>-->
+
+</mapper>

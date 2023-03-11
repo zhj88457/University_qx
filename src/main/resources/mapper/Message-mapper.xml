@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.MessageMapper">
+
+    <sql id="insertFields">
+         from_id,to_id,content,send_time,msg_type,id,status
+    </sql>
+    <delete id="deleteMessage">
+        delete from message where id=#{messageId}
+    </delete>
+    <select id="unReadMsg" resultMap="messageList">
+     select * from message where status = 0 AND  to_id = #{userId} AND msg_type = 1 order by send_time asc;
+</select>
+    <update id="updateMessage">
+    update message set status = #{status} where to_id=#{userId}
+</update>
+
+    <resultMap type="com.example.demo.eneity.Message" id="messageList">
+        <result property="fromId" column="from_id" />
+        <result property="toId" column="to_id"/>
+        <result property="content" column="content" />
+        <result property="sendTime" column="send_time"/>
+        <result property="msgType" column="msg_type"/>
+        <result property="status" column="status"/>
+    </resultMap>
+    <insert id="insertConversation">
+        insert into message(<include refid="insertFields"></include>)
+        values (#{fromId},#{toId},#{content},#{sendTime},#{msgType},#{id},#{status})
+    </insert>
+    <insert id="addMsg">
+        insert into messageStatus(fromId, toId, status) values (#{fromId},#{toId},#{status})
+    </insert>
+    <update id="updateMessageStatus">
+        update message set status=1 where to_id=#{userId}
+        and msg_type=#{msgType}
+    </update>
+    <update id="updateMsg">
+        update messageStatus set status=#{status} where id=#{id}
+    </update>
+    <select id="countUnreadConversations" resultType="java.lang.Integer">
+        select count(id)
+        from message
+        where status = 0
+        and msg_type=#{msgType}
+        and to_id=#{userId}
+
+    </select>
+    <select id="findSystemConversations" resultType="com.example.demo.eneity.Message">
+        selece * from message
+        where to_id=#{userId}
+        order by status asc , id desc
+    </select>
+    <select id="findMessageByToId" resultType="com.example.demo.eneity.Message">
+        select * from message
+        where msg_type=#{msgType}
+        and to_id=#{toId}
+       order by send_time desc
+    </select>
+    <select id="findMessage" resultMap="messageList">
+        select * from message where from_id = #{from_id} and to_id = #{to_id} and (msg_type=1 or msg_type=5) order by send_time asc;
+    </select>
+    <select id="unReadmessage" resultType="java.util.List">
+        select from_id,count(msg_type) as count from message where status = 0 AND from_id = #{from_id} and to_id = #{to_id} AND msg_type = #{msg_type}
+group by msg_type;
+    </select>
+    <select id="getMessage" resultType="java.lang.Integer">
+    select DISTINCT from_id from message where  to_id = #{userId} and msg_type=1 ;
+</select>
+    <select id="getFromMessage" resultType="java.lang.Integer">
+    select DISTINCT to_id from message where from_id = #{userId} and msg_type=1;
+</select>
+    <select id="countUnreadMessage" resultType="java.lang.Integer">
+      select count(id)
+    from message
+    where status = 0
+    and msg_type!=0
+    and to_id=#{userId}
+    </select>
+    <select id="selectMsg" resultType="com.example.demo.eneity.MsgStatus">
+        select * from messageStatus
+        where fromId=#{fromId}
+        and toId=#{toId}
+    </select>
+    <select id="unmessage" resultType="java.lang.Integer">
+    select count(id)  from message where status = 0 AND from_id = #{fromId} and to_id = #{userId} AND msg_type = 1;
+</select>
+    <select id="findPurchaseMessage" resultType="com.example.demo.eneity.Message">
+        select * from message where from_id=#{fromId} and to_id =#{toId} and msg_type=4
+    </select>
+    <select id="findunredMessage" resultType="com.example.demo.eneity.Message">
+        select * from message
+        where status = 0
+        and msg_type!=0
+        and to_id=#{userId}
+    </select>
+    <select id="findMessageByTypeTo" resultType="com.example.demo.eneity.Message">
+        select * from message where to_id=#{toId} and msg_type=4
+    </select>
+</mapper>

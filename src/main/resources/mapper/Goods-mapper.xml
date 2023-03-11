@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.GoodsMapper">
+    <resultMap type="com.example.demo.eneity.Goods" id="goodsList">
+        <result property="sellerId" column="seller_id" />
+        <result property="name" column="name"/>
+        <result property="price" column="price" />
+        <result property="detail" column="detail"/>
+        <result property="upload_date" column="upload_date"/>
+        <result property="picture" column="picture" />
+        <result property="id" column="id" />
+        <result property="status" column="status" />
+        <result property="score" column="score" />
+
+    </resultMap>
+
+    <sql id="insertFields">
+         seller_id,name,id,price,detail,upload_date,status,picture
+    </sql>
+    <insert id="addGoods" >
+        insert into goods(<include refid="insertFields"></include>)
+        values (#{sellerId},#{name},#{id},#{price},#{detail},#{upload_date},#{status},#{picture})
+    </insert>
+    <update id="updateGoods">
+        update goods set name=#{name},price=#{price},detail=#{detail},picture=#{picture} where id=#{id}
+    </update>
+    <update id="updateGoodStatus">
+        update goods set status=3 where id=#{goodId}
+    </update>
+    <update id="updateStatus">
+        update goods set status=3 where id=#{goodId}
+    </update>
+    <update id="updateAStatus">
+        update goods set status=1 where id=#{goodId}
+    </update>
+
+    <delete id="deleateGoods">
+        delete from goods where id=#{goodId}
+    </delete>
+    <select id="findById" resultType="com.example.demo.eneity.Goods"> select * from goods where id=#{id} </select>
+    <select id="findAll" resultType="com.example.demo.eneity.Goods">
+      select * from goods where status != 3 order by upload_date desc
+    </select>
+    <select id="obscureSelect" resultMap="goodsList">
+     SELECT
+      *
+    FROM
+      goods
+    WHERE status!=3 and name LIKE CONCAT('%',#{str},'%')
+</select>
+    <select id="findMaxId" resultType="java.lang.Integer">
+        select max(id) from goods
+    </select>
+    <select id="findMinId" resultType="java.lang.Integer">
+        select min(id) from goods
+    </select>
+    <select id="findMyGoods" resultType="com.example.demo.eneity.Goods">
+        select * from goods where seller_id=#{userId}
+    </select>
+    <select id="findByLabel" resultType="java.lang.Integer">
+ SELECT
+  id
+FROM
+  goods
+WHERE status!=3 and name LIKE CONCAT('%',#{str},'%')
+</select>
+    <select id="soldGoods" resultType="com.example.demo.eneity.Goods">
+    select * from goods where seller_id=#{userId}
+</select>
+    <select id="findallGoods" resultType="com.example.demo.eneity.Goods">
+        select * from goods order by status asc
+    </select>
+    <select id="findDate" resultType="java.lang.String">
+        select upload_date from goods where id=#{goodId}
+    </select>
+
+</mapper>

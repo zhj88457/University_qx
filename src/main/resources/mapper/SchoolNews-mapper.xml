@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.SchoolnewsMapper">
+
+    <sql id="insertFields">
+         picture1,picture2,picture3,picture4,picture5,picture6,picture7,picture8,picture9,upload_time,content
+    </sql>
+    <insert id="addSchoolnews">
+        insert into schoolnews (<include refid="insertFields"></include>)
+        values(#{picture1},#{picture2},#{picture3},#{picture4},#{picture5},#{picture6},#{picture7},#{picture8},#{picture9},#{uploadTime},#{content})
+    </insert>
+    <delete id="deleteNews">
+        delete from schoolnews where id=#{nid}
+    </delete>
+    <select id="findAll" resultType="com.example.demo.eneity.SchoolNews">
+        select  * from schoolnews order by upload_time desc;
+    </select>
+    <select id="findNewsById" resultType="com.example.demo.eneity.SchoolNews">
+        select * from schoolnews where id=#{id}
+    </select>
+</mapper>

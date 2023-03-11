@@ -1,0 +1,26 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.ClassroomMapper">
+    <sql id="insertFields">
+         classnum,status,term,ans
+    </sql>
+    <insert id="insertClassroom">
+        insert into classroom (<include refid="insertFields"></include>)
+        values (#{classnum},#{status},#{term},#{ans})
+    </insert>
+    <update id="updateClassroomAns">
+        update classroom set ans=#{ans} where classnum=#{classnum}
+    </update>
+    <select id="findClassByNum" resultType="com.example.demo.eneity.Classroom">
+        select * from classroom where classnum=#{classnum}
+    </select>
+    <select id="findClassrooms" resultType="com.example.demo.eneity.Classroom">
+        select * from classroom
+    </select>
+    <select id="findClassroomByNum" resultType="com.example.demo.eneity.Classroom">
+        select * from classroom WHERE classnum LIKE CONCAT(#{str},'%')
+    </select>
+
+
+</mapper>

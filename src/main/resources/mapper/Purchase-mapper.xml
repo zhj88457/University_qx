@@ -1,0 +1,25 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.PurchaseMapper">
+    <sql id="insertFields">
+        sellerId,buyerId,purchaseTime,goodId
+    </sql>
+    <insert id="addPurchase">
+        insert into purchase (<include refid="insertFields"></include>)
+        values (#{sellerId},#{buyerId},#{purchaseTime},#{goodId})
+    </insert>
+    <select id="findMyPurchase" resultType="com.example.demo.eneity.Purchase">
+        select * from purchase where buyerId=#{userId}
+    </select>
+    <select id="findMySold" resultType="com.example.demo.eneity.Purchase">
+        select * from purchase where sellerId=#{sellerId}
+    </select>
+    <select id="findAll" resultType="com.example.demo.eneity.Purchase">
+        select * from purchase
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(id) from purchase WHERE purchaseTime LIKE CONCAT('%',#{str},'%')
+    </select>
+
+</mapper>

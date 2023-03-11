@@ -1,0 +1,31 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.NoticeMapper">
+
+    <sql id="insertFields">
+         userId,groupId,createTime,context,picture1,picture2,picture3,title
+    </sql>
+    <insert id="insertContact">
+        insert into notice (<include refid="insertFields"></include>)
+        values (#{userId},#{groupId},#{createTime},#{context},#{picture1},#{picture2},#{picture3},#{title})
+    </insert>
+    <update id="updateNoticeById">
+        update notice set picture1=#{picture1},picture2=#{picture2},picture3=#{picture3},context=#{context},title=#{title} where id=#{id}
+    </update>
+    <delete id="deleteNotice">
+        delete from notice where id=#{noticeId}
+    </delete>
+    <select id="findNoticeById" resultType="com.example.demo.eneity.Notice">
+        select * from notice where id=#{noticeId}
+    </select>
+    <select id="findNotice" resultType="com.example.demo.eneity.Notice">
+        select * from notice where groupId=#{groupId} order by createTime desc
+    </select>
+    <select id="findTwoNotice" resultType="com.example.demo.eneity.Notice">
+        select * from notice  order by createTime desc
+    </select>
+    <select id="findAll" resultType="com.example.demo.eneity.Notice">
+        select * from  notice order by createTime desc
+    </select>
+</mapper>

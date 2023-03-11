@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.GoodPicturesMapper">
+
+    <sql id="insertFields">
+         goodId,pictureUrl,userId
+    </sql>
+    <insert id="addGoodPictures">
+        insert into  goodPictures(<include refid="insertFields"></include>)
+        values (#{goodId},#{pictureUrl},#{userId})
+    </insert>
+    <delete id="deleteGoodPicture">
+       delete from goodPictures where goodId=#{goodId}
+    </delete>
+    <select id="findGoodPictures" resultType="com.example.demo.eneity.GoodPictures">
+        select * from goodPictures where goodId=#{goodId}
+    </select>
+
+</mapper>

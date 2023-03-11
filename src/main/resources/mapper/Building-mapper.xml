@@ -1,0 +1,19 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.BuildingMapper">
+    <sql id="insertFields">
+         name,longitude,latitude
+    </sql>
+    <insert id="addBuildings">
+        insert into  building(<include refid="insertFields"></include>)
+        values (#{name},#{longitude},#{latitude})
+    </insert>
+    <delete id="deleteById">
+        delete from building where id =#{bid}
+    </delete>
+    <select id="findAll" resultType="com.example.demo.eneity.Building">
+        select * from  building
+    </select>
+
+</mapper>

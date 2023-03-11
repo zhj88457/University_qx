@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.WantedMapper">
+    <resultMap type="com.example.demo.eneity.Wanted" id="WantedList">
+        <result property="sellerId" column="sellerId" />
+        <result property="userId" column="userId"/>
+        <result property="createTime" column="createTime" />
+        <result property="goodId" column="goodId"/>
+    </resultMap>
+    <sql id="insertFields">
+         sellerId,userId,createTime,goodId
+    </sql>
+    <insert id="addWanted">
+        insert into wanted (<include refid="insertFields"></include>)
+        values(#{sellerId},#{userId},#{createTime},#{goodId})
+    </insert>
+    <delete id="deleteWanted">
+         delete from wanted where goodId=#{goodId} and userId=#{userId}
+    </delete>
+    <select id="getWantedList" resultMap="WantedList">
+ select * from wanted where userId=#{userId}
+
+ </select>
+    <select id="findWantedByGoodId" resultType="com.example.demo.eneity.Wanted">
+        select * from wanted where goodId=#{goodId}
+    </select>
+    <select id="countWanted" resultType="java.lang.Integer">
+      select count(id) from wanted where goodId=#{goodId}
+    </select>
+    <select id="findWantedByUserGoodId" resultType="com.example.demo.eneity.Wanted">
+        select * from wanted where goodId=#{goodId} and userId=#{userId}
+    </select>
+    <select id="findWantedByUserId" resultType="com.example.demo.eneity.Wanted">
+        select * from wanted where userId=#{userId};
+    </select>
+
+</mapper>
