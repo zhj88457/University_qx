@@ -1,0 +1,22 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.CompNewsMapper">
+    <sql id="insertFields">
+        id,title,status,content,picture1,picture2,picture3,createTime
+    </sql>
+    <update id="updateCount">
+        update compnews set count=count+1 where id=#{id}
+    </update>
+    <select id="findAll" resultType="com.example.demo.eneity.CompNews">
+    select * from compnews
+    </select>
+    <select id="findByStatus" resultType="com.example.demo.eneity.CompNews">
+        select * from compnews where status=#{status}
+    </select>
+    <select id="findById" resultType="com.example.demo.eneity.CompNews">
+        select * from compnews where id=#{id}
+    </select>
+
+
+</mapper>
