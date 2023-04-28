@@ -8,6 +8,7 @@
     <insert id="addBuildings">
         insert into  building(<include refid="insertFields"></include>)
         values (#{name},#{longitude},#{latitude})
+
     </insert>
     <delete id="deleteById">
         delete from building where id =#{bid}

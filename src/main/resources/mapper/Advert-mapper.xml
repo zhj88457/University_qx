@@ -1,0 +1,30 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.AdvertMapper">
+
+    <sql id="insertFields">
+        userId,describes,createTime,picture1,picture2,picture3,picture4
+    </sql>
+    <insert id="addAdvert">
+        insert into advert( userId,describes,createTime,picture1,picture2,picture3,picture4)
+        values (#{userId},#{describes},#{createTime},#{picture1},#{picture2},#{picture3},#{picture4})
+    </insert>
+    <update id="putAdvert">
+        update advert set describes=#{describes},picture1=#{picture1},picture2=#{picture2},picture3=#{picture3},picture4=#{picture4} where id=#{id}
+    </update>
+    <delete id="deleateById">
+        delete from advert where id=#{id}
+    </delete>
+    <select id="selectAll" resultType="com.example.demo.eneity.Advert">
+        select * from Advert order by createTime desc
+    </select>
+    <select id="selectMy" resultType="com.example.demo.eneity.Advert">
+        select * from Advert where userId=#{userId} order by createTime desc
+    </select>
+    <select id="findById" resultType="com.example.demo.eneity.Advert">
+        select * from advert where id=#{id}
+    </select>
+
+
+</mapper>

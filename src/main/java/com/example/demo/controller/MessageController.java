@@ -282,7 +282,7 @@ public class MessageController {
             return (String) CommunityUtil.getJSONString(200, "信息", map);
         }
     }
-    @PostMapping(path = "/message")
+        @PostMapping(path = "/message")
     public String addMessage(int to_id,String content,int userId){
 //        User user = hostHolder.getUser();
         MsgStatus msgStatus = messageService.findMsgStatus(userId, to_id);
