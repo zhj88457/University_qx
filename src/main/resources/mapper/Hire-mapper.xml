@@ -1,0 +1,30 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.HireMapper">
+
+    <sql id="insertFields">
+        name,createTime,picture,sellerId
+    </sql>
+    <insert id="addOne">
+        insert into hire(<include refid="insertFields"/>)
+        values (#{name},#{createTime},#{picture},#{sellerId})
+    </insert>
+    <update id="putHire">
+        update hire set picture = #{picture},name=#{name} where id=#{id}
+    </update>
+    <delete id="deleteById">
+        delete from hire where id=#{id}
+    </delete>
+    <select id="findAll" resultType="com.example.demo.eneity.Hire">
+        select * from hire group by createTime desc
+    </select>
+    <select id="findMyHire" resultType="com.example.demo.eneity.Hire">
+        select * from hire where sellerId=#{userId}
+    </select>
+    <select id="findById" resultType="com.example.demo.eneity.Hire">
+        select * from hire where id=#{id}
+    </select>
+
+
+</mapper>
